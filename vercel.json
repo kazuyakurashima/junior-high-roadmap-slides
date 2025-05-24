@@ -1,5 +1,5 @@
 {
-  "build": {
-    "outputDirectory": "slides"
-  }
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "slides"
 }
