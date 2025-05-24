@@ -68,10 +68,13 @@ function App() {
   const [mockExamData, setMockExamData] = useState<MockExamData[]>([]);
   const [costData, setCostData] = useState<CostData[]>([]);
   
+  console.log('App component mounted, slides should be visible');
+  
   useEffect(() => {
     const loadCSVData = async () => {
       try {
-        const schoolsResponse = await fetch('./data/schools_data.csv');
+        console.log('Loading CSV data...');
+        const schoolsResponse = await fetch('/data/schools_data.csv');
         const schoolsText = await schoolsResponse.text();
         const schoolsRows = schoolsText.split('\n').slice(1); // Skip header
         const parsedSchoolsData = schoolsRows
@@ -91,7 +94,7 @@ function App() {
           .filter(school => school.学校名); // Filter out empty rows
         setSchoolsData(parsedSchoolsData);
         
-        const subjectsResponse = await fetch('./data/subject_data.csv');
+        const subjectsResponse = await fetch('/data/subject_data.csv');
         const subjectsText = await subjectsResponse.text();
         const subjectsRows = subjectsText.split('\n').slice(1); // Skip header
         const parsedSubjectsData = subjectsRows
@@ -107,8 +110,9 @@ function App() {
           })
           .filter(subject => subject.教科); // Filter out empty rows
         setSubjectsData(parsedSubjectsData);
+        console.log('Subjects data loaded:', parsedSubjectsData);
         
-        const cramSchoolResponse = await fetch('./data/cram_school_data.csv');
+        const cramSchoolResponse = await fetch('/data/cram_school_data.csv');
         const cramSchoolText = await cramSchoolResponse.text();
         const cramSchoolRows = cramSchoolText.split('\n').slice(1); // Skip header
         const parsedCramSchoolData = cramSchoolRows
@@ -127,8 +131,9 @@ function App() {
           })
           .filter(school => school.塾名); // Filter out empty rows
         setCramSchoolData(parsedCramSchoolData);
+        console.log('Cram school data loaded:', parsedCramSchoolData);
         
-        const mockExamResponse = await fetch('./data/mock_exam_data.csv');
+        const mockExamResponse = await fetch('/data/mock_exam_data.csv');
         const mockExamText = await mockExamResponse.text();
         const mockExamRows = mockExamText.split('\n').slice(1); // Skip header
         const parsedMockExamData = mockExamRows
@@ -145,8 +150,9 @@ function App() {
           })
           .filter(exam => exam.模試名); // Filter out empty rows
         setMockExamData(parsedMockExamData);
+        console.log('Mock exam data loaded:', parsedMockExamData);
         
-        const costResponse = await fetch('./data/cost_data.csv');
+        const costResponse = await fetch('/data/cost_data.csv');
         const costText = await costResponse.text();
         const costRows = costText.split('\n').slice(1); // Skip header
         const parsedCostData = costRows
@@ -162,8 +168,10 @@ function App() {
           })
           .filter(cost => cost.項目); // Filter out empty rows
         setCostData(parsedCostData);
+        console.log('Cost data loaded:', parsedCostData);
       } catch (error) {
         console.error('Error loading CSV data:', error);
+        console.error('Error details:', error instanceof Error ? error.message : String(error));
       }
     };
     
